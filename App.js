@@ -1,51 +1,27 @@
-import React, { useState } from "react";
-
-function Values({ value, handleValue }) {
-  return <button onClick={() => handleValue(value)}>{value}</button>;
-}
-
-function Operation({ operation, handleOperation }) {
-  return (
-    <button onClick={() => handleOperation(operation)}>{operation}</button>
-  );
-}
+import React from "react";
+import Operator from "./Operator";
+import { useState } from "react";
 
 export default function Calculator() {
-  const [localTotalAdd, setLocalAddTotal] = useState(0);
-  const [localTotalSub, setLocalSubTotal] = useState(0);
-  const [selectedValue, setSelectedValue] = useState(0);
+  const [localTotalAdd, setLocalTotalAdd] = useState(0);
+  const [localTotalSub, setLocalTotalSub] = useState(0);
 
-  function handleOperation(op) {
-    if (op === "+") {
-      setLocalAddTotal(localTotalAdd + selectedValue);
-    }
-    if (op === "-") {
-      setLocalSubTotal(localTotalSub - selectedValue);
-    }
+  const values = [10, 15, 20];
+
+  function updateLocalTotalAdd(newTotal) {
+    setLocalTotalAdd(newTotal);
   }
 
-  function handleValue(value) {
-    setSelectedValue(value);
+  function updateLocalTotalSub(newTotal) {
+    setLocalTotalSub(newTotal);
   }
+
   const globalTotal = localTotalAdd + localTotalSub;
-
   return (
-    <div class="Global calculator">
+    <div className="Global-calculator">
       <div> Global Total: {globalTotal}</div>
-      <div class="Local-Calculator">
-        <div> Local Total : {localTotalAdd}</div>
-        <Values value={10} handleValue={handleValue} />
-        <Values value={15} handleValue={handleValue} />
-        <Values value={20} handleValue={handleValue} />
-        <Operation operation="+" handleOperation={handleOperation} />
-      </div>
-      <div class="Local-Calculator">
-        <div> Local Total: {localTotalSub}</div>
-        <Values value={10} handleValue={handleValue} />
-        <Values value={15} handleValue={handleValue} />
-        <Values value={20} handleValue={handleValue} />
-        <Operation operation="-" handleOperation={handleOperation} />
-      </div>
+      <Operator values={values} operations={["+"]} />
+      <Operator values={values} operations={["-"]} />
     </div>
   );
 }
